@@ -1,26 +1,31 @@
-public class CheckingAccount extends Account{
+public class CheckingAccount extends Account {
     private double credit;
+    
     public CheckingAccount(){
         super(0,"");
-        this.credit = 0;
+        credit = 0;
     }
-    public CheckingAccount(double balance, String name,double credit){
-        super(balance, name);
+    
+    public CheckingAccount(double balance,String name,double credit) {
+        super(balance,name);
         this.credit = credit;
     }
-    public void setCredit(double credit){
-        if(credit >= 0){
+    
+    public void setCredit(double credit) {
+        if (credit > 0) {
             this.credit = credit;
         }
         else {
-            System.out.println("Input number must be a positive integer.");
+            System.out.println("Input number must be a positive integer");
         }
     }
-    public double getCredit(){
+    
+    public double getCredit() {
         return credit;
     }
+    
     @Override
-    public void withdraw(double a) throws WithdrawException{
+    public void withdraw(double a) throws WithdrawException {
         if(a > 0){
             if (getBalance() - a >= 0){
                 setBalance(getBalance() - a);
@@ -38,15 +43,26 @@ public class CheckingAccount extends Account{
         else{
             super.withdraw(a);
         }
-        
-    }
-    public void withdraw(String a) throws WithdrawException{
-        this.withdraw(Double.parseDouble(a));
-    }
-    @Override
-    public String toString(){
-        return "The " + getName() + " account has " + getBalance() + " baht and " + getCredit() + " credits.";
+
+    
+    double needFromCredit = a - balance;
+    if (needFromCredit <= credit) {
+        balance = 0;
+        credit -= needFromCredit;
+        System.out.println(a + " baht is withdrawn from " + name
+                + " and your credit balance is " + credit + ".");
+        }
     }
     
+    public void withdraw(String a) throws WithdrawException {
+        this.withdraw(Double.parseDouble(a));
+    }
+
+    @Override
+    public String toString() {
+        return "The "+ name + " account has "+ balance + " baht and "+ credit + " credits.";
+    }
+
 
 }
+
